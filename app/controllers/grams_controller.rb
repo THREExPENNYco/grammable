@@ -1,10 +1,12 @@
 class GramsController < ApplicationController
+   # require the user signed-in before controller 
+ before_action :authenticate_user!, only: [:new, :create]
   # root page for the application 
   def index 
   end 
   # saves a Gram to the database and redirects back to index 
   def create 
-    @gram = Gram.create(gram_params)
+    @gram = current_user.grams.create(gram_params)
     # validates the gram to make sure it is passing validation 
     if @gram.valid? 
       redirect_to root_path
