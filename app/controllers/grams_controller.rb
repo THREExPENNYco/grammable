@@ -4,6 +4,10 @@ class GramsController < ApplicationController
   # root page for the application 
   def index 
   end 
+
+  def show 
+    @gram = Gram.all()
+  end 
   # saves a Gram to the database and redirects back to index 
   def create 
     @gram = current_user.grams.create(gram_params)
