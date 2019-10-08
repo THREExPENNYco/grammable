@@ -1,12 +1,18 @@
 class GramsController < ApplicationController
    # require the user signed-in before controller 
- before_action :authenticate_user!, only: [:new, :create]
+   before_action :authenticate_user!, only: [:new, :create]
   # root page for the application 
   def index 
   end 
 
   def show 
-    @gram = Gram.all()
+    #searches for the gram using id 
+    #returns nil if the object is not in database 
+    @gram = Gram.find_by_id(params[:id])
+    if @gram.blank? 
+      render plain: 'Not found :(', status: :not_found 
+    end 
+
   end 
   # saves a Gram to the database and redirects back to index 
   def create 
