@@ -1,50 +1,60 @@
 class GramsController < ApplicationController
-  # require the user signed-in before controller 
   before_action :authenticate_user!, only: [:new, :create]
-  
-  def index 
-  # root page for the application 
-  end 
 
-  def show 
-    #searches for the gram using id 
-    #returns nil if the object is not in database 
-    @gram = Gram.find_by_id(params[:id])
-    if @gram.blank? 
-      render plain: 'Not found :(', status: :not_found 
-    end 
-  end 
-
-  def edit 
-  #pulls the current gram from the database and allows it to be changed 
-    @gram = Gram.find_by_id(params[:id])
-    if @gram.blank? 
-      render plain: 'Not Found :(', status: :not_found 
-    end 
-  end 
-
-  def create 
-    # saves a Gram to the database and redirects back to index 
-    @gram = current_user.grams.create(gram_params)
-    # validates the gram to make sure it is passing validation 
-    if @gram.valid? 
-      redirect_to root_path
-    else 
-      # returns page Unauthorized because of http status" 
-      @gram.errors.messages
-      render plain: "#{@gram.errors.messages}", status: :unprocessable_entity
-    end 
-  end 
-
-  def new 
-    #creates a new Gram object 
+  def new
+    #creates a new gram object 
     @gram = Gram.new
+  end
+
+  def index
+    #root page for application 
+  end
+
+  def show
+    #displays a gram from the database or returns nil 
+    @gram = Gram.find_by_id(params[:id])
+    return render_not_found if @gram.blank?
+  end
+
+  def edit
+    #renders form for gram message to be edited 
+    @gram = Gram.find_by_id(params[:id])
+    return render_not_found if @gram.blank?
+  end
+
+  def create
+    #creates a gram object 
+    @gram = current_user.grams.create(gram_params)
+    if @gram.valid?
+      #while creating if gram passes validations it redirrects back to root path 
+      redirect_to root_path
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def update 
+    @gram = Gram.find_by_id(params[:id])
+    return render_not_found if @gram.blank? 
+    
+    @gram.update_attributes(gram_params) 
+    
+    if @gram.valid? 
+      redirect_to root_path 
+    else 
+      return render :edit, status: :unprocessable_entity 
+    end 
   end 
 
+  private
 
-  private 
-
-  def gram_params 
+  def gram_params
+    #params for gram creation 
     params.require(:gram).permit(:message)
-  end 
+  end
+
+  def render_not_found
+    #displays HTTP status if gram not sfound 
+    render plain: 'Not Found :(', status: :not_found
+  end
 end
