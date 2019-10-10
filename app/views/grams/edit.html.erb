@@ -1,4 +1,4 @@
-<%= simple_form_for @gram do |f| %>
+<%= simple_form_for @gram, url: grams_path(@gram), method: :post do |f| %>
   <%= f.input :message %>
   <%= f.submit "Post!" %>
 <% end %>

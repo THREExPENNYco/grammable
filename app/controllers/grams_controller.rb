@@ -12,13 +12,13 @@ class GramsController < ApplicationController
 
   def show
     #displays a gram from the database or returns nil 
-    @gram = Gram.find_by_id(params[:id])
+    @gram = Gram.find_by_id(:id)
     return render_not_found if @gram.blank?
   end
 
   def edit
     #renders form for gram message to be edited 
-    @gram = Gram.find_by_id(params[:id])
+    @gram = Gram.find_by_id(:id)
     return render_not_found if @gram.blank?
   end
 
@@ -35,6 +35,7 @@ class GramsController < ApplicationController
 
   def update 
     @gram = Gram.find_by_id(params[:id])
+    
     return render_not_found if @gram.blank? 
     
     @gram.update_attributes(gram_params) 
