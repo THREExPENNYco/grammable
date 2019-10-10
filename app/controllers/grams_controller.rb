@@ -8,17 +8,18 @@ class GramsController < ApplicationController
 
   def index
     #root page for application 
+
   end
 
   def show
     #displays a gram from the database or returns nil 
-    @gram = Gram.find_by_id(:id)
+    @gram = Gram.find_by_id(params[:id])
     return render_not_found if @gram.blank?
   end
 
   def edit
     #renders form for gram message to be edited 
-    @gram = Gram.find_by_id(:id)
+    @gram = Gram.find_by_id(params[:id])
     return render_not_found if @gram.blank?
   end
 
@@ -46,6 +47,17 @@ class GramsController < ApplicationController
       return render :edit, status: :unprocessable_entity 
     end 
   end 
+
+  def destroy 
+   @gram = Gram.find_by_id(params[:id])
+    if @gram.blank? 
+      return render_not_found
+    else  
+      @gram.destroy 
+      redirect_to root_path
+    end 
+  end 
+
 
   private
 
