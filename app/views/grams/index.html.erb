@@ -1,3 +1,10 @@
 <h1>Hey There You Are</h1> 
-
+  <div> 
+    <% @grams.each do |gram| %> 
+    <%= gram.message %> 
+      <% if gram.picture %>  
+        <%= image_tag gram.picture.url %> 
+      <% end %>  
+    <% end %> 
+  </div>  
 <%= link_to "show grams", grams_path %> 

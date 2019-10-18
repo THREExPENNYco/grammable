@@ -8,6 +8,7 @@ class GramsController < ApplicationController
 
   def index
     #root page for application 
+    @grams = Gram.all 
 
   end
 
@@ -61,7 +62,7 @@ class GramsController < ApplicationController
 
   def gram_params
     #params for gram creation 
-    params.require(:gram).permit(:message)
+    params.require(:gram).permit(:message, :picture)
   end
 
   def render_not_found(status=:not_found)
