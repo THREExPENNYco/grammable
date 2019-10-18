@@ -18,6 +18,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'simple_form'
 gem 'devise'
+gem 'figaro'
+gem 'fog-aws'
 
 
 # See https://github.com/rails/execjs#readme for more supported runtimes
